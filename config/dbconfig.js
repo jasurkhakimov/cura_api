@@ -1,14 +1,13 @@
-const  config = {
-    user:  'foo', // sql user
-    password:  'foo', //sql user password
-    server:  '127.0.0.1', // if it does not work try- localhost
-    database:  'Products',
-    options: {
-      trustedconnection:  true,
-      enableArithAbort:  true,
-      instancename:  'SQLEXPRESS'  // SQL Server instance name
-    },
-    port:  55892
-  }
-  
-  module.exports = config;
+module.exports = {
+    HOST: "10.10.12.65",
+    USER: "curauser",
+    PASSWORD: "Aa123456$",
+    DB: "CURADEV",
+    dialect: "mssql",
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
+};

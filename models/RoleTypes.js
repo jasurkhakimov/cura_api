@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-	const Branches = sequelize.define("Branches", {
+	const RoleTypes = sequelize.define("RoleTypes", {
 		ID: {
 			type: Sequelize.INTEGER,
 			primaryKey: true
@@ -10,5 +10,5 @@ module.exports = (sequelize, Sequelize) => {
 		timestamps: false
 	});
 
-	return Branches;
+	return RoleTypes;
 };

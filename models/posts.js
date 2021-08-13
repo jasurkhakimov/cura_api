@@ -1,7 +1,14 @@
-class Posts {
-	constructor(ID, name) {
-		this.ID = ID;
-		this.name = name;
-	}
-}
-module.exports = Posts;
+module.exports = (sequelize, Sequelize) => {
+	const Posts = sequelize.define("Posts", {
+		ID: {
+			type: Sequelize.INTEGER,
+			primaryKey: true
+		},
+		name: {
+			type: Sequelize.STRING
+		},
+		timestamps: false
+	});
+
+	return Posts;
+};
