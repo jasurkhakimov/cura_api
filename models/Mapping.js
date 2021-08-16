@@ -1,7 +1,8 @@
-const Emlpoyees = require("./Emlpoyees");
-const Roles = require("./Roles");
 
 module.exports = (sequelize, Sequelize) => {
+	const Emlpoyees = require("./Emlpoyees")(sequelize, Sequelize);
+	const Roles = require("./Roles")(sequelize, Sequelize);
+	
 	const Mapping = sequelize.define("Mapping", {
 		ID: {
 			type: Sequelize.INTEGER,
@@ -21,7 +22,10 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'ID'
             }
 		},
-		timestamps: false
+	}, {
+		timestamps: false,
+		createdAt: false,
+		updatedAt: false,
 	});
 
 	return Mapping;

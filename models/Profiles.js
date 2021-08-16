@@ -7,7 +7,10 @@ module.exports = (sequelize, Sequelize) => {
 		name: {
 			type: Sequelize.STRING
 		},
-		timestamps: false
+	}, {
+		timestamps: false,
+		createdAt: false,
+		updatedAt: false,
 	});
 
 	return Profiles;

@@ -1,4 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
+	
 	const DepTypes = sequelize.define("DepTypes", {
 		ID: {
 			type: Sequelize.INTEGER,
@@ -7,7 +8,10 @@ module.exports = (sequelize, Sequelize) => {
 		name: {
 			type: Sequelize.STRING
 		},
-		timestamps: false
+	}, {
+		timestamps: false,
+		createdAt: false,
+		updatedAt: false,
 	});
 
 	return DepTypes;

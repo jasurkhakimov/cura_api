@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+    origin: "http://localhost:8081"
 };
 
 app.use(cors(corsOptions));
@@ -17,15 +17,20 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const db = require("./models/index.js");
+
 db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+    res.json({ message: "Welcome to bezkoder application." });
 });
+
+require("./routes/v1/branches.route")(app);
+require("./routes/v1/deps.route")(app);
+require("./routes/v1/roles.route")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server is running on port ${PORT}.`);
 });

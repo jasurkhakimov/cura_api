@@ -1,8 +1,8 @@
-const Posts = require("./Posts");
-const Branches = require("./Branches");
-const Deps = require("./Deps");
 
 module.exports = (sequelize, Sequelize) => {
+	const Posts = require("./Posts")(sequelize, Sequelize);
+	const Branches = require("./Branches")(sequelize, Sequelize);
+	const Deps = require("./Deps")(sequelize, Sequelize);
 	const Employees = sequelize.define("Employees", {
 		ID: {
 			type: Sequelize.INTEGER,
@@ -51,7 +51,10 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.INTEGER,
 			defaultValue: 1
 		},
-		timestamps: false
+	}, {
+		timestamps: false,
+		createdAt: false,
+		updatedAt: false,
 	});
 
 	return Employees;

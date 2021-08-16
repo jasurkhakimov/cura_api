@@ -1,7 +1,8 @@
-const RoleTypes = require("./RoleTypes");
-const Profiles = require("./Profiles");
 
 module.exports = (sequelize, Sequelize) => {
+	const RoleTypes = require("./RoleTypes")(sequelize, Sequelize);
+	const Profiles = require("./Profiles")(sequelize, Sequelize);
+	
 	const Roles = sequelize.define("Roles", {
 		ID: {
 			type: Sequelize.INTEGER,
@@ -15,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		type: {
 			type: Sequelize.INTEGER,
-			
+
 			references: {
 				model: RoleTypes,
 				key: 'ID'
@@ -23,13 +24,16 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		profile: {
 			type: Sequelize.INTEGER,
-			
+
 			references: {
 				model: Profiles,
 				key: 'ID'
 			}
 		},
-		timestamps: false
+	}, {
+		timestamps: false,
+		createdAt: false,
+		updatedAt: false,
 	});
 
 	return Roles;

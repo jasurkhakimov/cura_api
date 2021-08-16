@@ -1,6 +1,7 @@
-const DepTypes = require("./DepTypes");
 
 module.exports = (sequelize, Sequelize) => {
+	const DepTypes = require("./DepTypes")(sequelize, Sequelize);
+	
 	const Deps = sequelize.define("Deps", {
 		ID: {
 			type: Sequelize.INTEGER,
@@ -17,7 +18,11 @@ module.exports = (sequelize, Sequelize) => {
 				key: 'ID'
 			}
 		},
-		timestamps: false
+	},
+	{
+		timestamps: false,
+		createdAt: false,
+		updatedAt: false,
 	});
 
 	return Deps;
