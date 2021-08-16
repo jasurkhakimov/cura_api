@@ -32,6 +32,7 @@ db.Deps = require("./Deps.js")(sequelize, Sequelize);
 db.Roles = require("./Roles.js")(sequelize, Sequelize);
 db.RoleTypes = require("./RoleTypes.js")(sequelize, Sequelize);
 db.Profiles = require("./Profiles.js")(sequelize, Sequelize);
+db.Posts = require("./Posts.js")(sequelize, Sequelize);
 
 db.Roles.belongsTo(db.RoleTypes, {
     foreignKey: {
