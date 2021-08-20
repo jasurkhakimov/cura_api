@@ -33,6 +33,9 @@ db.Roles = require("./Roles.js")(sequelize, Sequelize);
 db.RoleTypes = require("./RoleTypes.js")(sequelize, Sequelize);
 db.Profiles = require("./Profiles.js")(sequelize, Sequelize);
 db.Posts = require("./Posts.js")(sequelize, Sequelize);
+db.Employees = require("./Employees.js")(sequelize, Sequelize);
+db.Mapping = require("./Mapping.js")(sequelize, Sequelize);
+db.Users = require("./Users.js")(sequelize, Sequelize);
 
 db.Roles.belongsTo(db.RoleTypes, {
     foreignKey: {
@@ -68,5 +71,64 @@ db.Deps.belongsTo(db.DepTypes, {
         name: 'type'
     }
 })
+
+db.Employees.belongsTo(db.Deps, {
+    foreignKey: {
+        name: 'depID'
+    }
+});
+
+db.Employees.belongsTo(db.Posts, {
+    foreignKey: {
+        name: 'postID'
+    }
+});
+
+db.Employees.belongsTo(db.Branches, {
+    foreignKey: {
+        name: 'branchID'
+    }
+});
+
+db.Deps.hasOne(db.Employees, {
+    foreignKey: {
+        name: 'depID'
+    }
+});
+db.Posts.hasOne(db.Employees, {
+    foreignKey: {
+        name: 'postID'
+    }
+});
+db.Branches.hasOne(db.Employees, {
+    foreignKey: {
+        name: 'branchID'
+    }
+});
+
+db.Mapping.belongsTo(db.Roles, {
+    foreignKey: {
+        name: 'roleID'
+    }
+});
+
+db.Mapping.belongsTo(db.Employees, {
+    foreignKey: {
+        name: 'empID'
+    }
+});
+
+db.Roles.hasOne(db.Mapping, {
+    foreignKey: {
+        name: 'roleID'
+    }
+});
+
+db.Employees.hasOne(db.Mapping, {
+    foreignKey: {
+        name: 'empID'
+    }
+});
+
 
 module.exports = db;

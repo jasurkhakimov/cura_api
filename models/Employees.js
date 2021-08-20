@@ -3,6 +3,7 @@ module.exports = (sequelize, Sequelize) => {
 	const Posts = require("./Posts")(sequelize, Sequelize);
 	const Branches = require("./Branches")(sequelize, Sequelize);
 	const Deps = require("./Deps")(sequelize, Sequelize);
+	
 	const Employees = sequelize.define("Employees", {
 		ID: {
 			type: Sequelize.INTEGER,

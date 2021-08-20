@@ -1,14 +1,11 @@
 const db = require("../models/index.js");
-const Deps = db.Deps;
-const DepTypes = db.DepTypes;
+const Users = db.Users;
 const Op = db.Sequelize.Op;
+const bcrypt = require('bcryptjs');
+
 
 exports.findAll = (req, res) => {
-    Deps.findAll({
-        include: [
-            { model: DepTypes, nested: true }
-        ]
-    })
+    Users.findAll()
         .then(data => {
             res.send(data);
         })
@@ -23,11 +20,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Deps.findByPk(id, {
-        include: [
-            { model: DepTypes, nested: true }
-        ]
-    })
+    Users.findByPk(id)
         .then(data => {
             res.send(data);
         })
@@ -42,7 +35,9 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Deps.update(req.body, {
+    let user = req.body;
+
+    Users.update(user, {
         where: { ID: id }
     })
         .then(num => {
@@ -66,7 +61,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Deps.destroy({
+    Users.destroy({
         where: { id: id }
     })
         .then(num => {
@@ -90,21 +85,32 @@ exports.delete = (req, res) => {
 
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.name) {
+    if (!req.body.username && !req.body.password) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
         return;
     }
 
+    if (String(req.body.password).length < 8) {
+        res.status(400).send({
+            error: "Password length must be atleast 8 symbols!"
+        });
+        return;
+    }
+
+    const salt = bcrypt.genSaltSync(10);
     // Create a Tutorial
-    const dep = {
-        name: req.body.name,
-        type: req.body.type,
+    const user = {
+        username: req.body.username,
+        password: bcrypt.hashSync(String(req.body.password), salt),
+        role: req.body.role ? req.body.role : "",
     };
 
+    console.log(user);
+
     // Save Tutorial in the database
-    Deps.create(dep, { fields: ['name', 'type'] })
+    Users.create(user, { fields: ['username', 'password', 'role'] })
         .then(data => {
             res.send(data);
         })
@@ -114,4 +120,46 @@ exports.create = (req, res) => {
                     err.message || "Some error occurred while creating the Instance."
             });
         });
+};
+
+exports.auth = async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    console.log(req.body);
+    // try {
+    let user = await Users.findOne({
+        where: {
+            username: username
+        }
+    });
+
+    if (user) {
+        if (bcrypt.compareSync(password, user.password)) {
+            
+            let token = await user.generateToken(user.ID);
+            console.log('before ', user.token);
+            user.token = token;
+            await user.save();
+            console.log('after', user.token);
+            res.send(user);
+        } else {
+            res.status(400).send({
+                message: 'Login or password is incorrect'
+            })
+        }
+    } else {
+        res.status(400).send({
+            message: 'Login or password is incorrect'
+        })
+    }
+
+
+    // } catch (err) {
+    //     console.log(err);
+    //     res.status(500).send({
+    //         message:
+    //             err.message 
+    //     });
+    // }
 };

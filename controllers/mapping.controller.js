@@ -1,12 +1,14 @@
 const db = require("../models/index.js");
-const Deps = db.Deps;
-const DepTypes = db.DepTypes;
+const Mapping = db.Mapping;
+const Roles = db.Roles;
+const Employees = db.Employees;
 const Op = db.Sequelize.Op;
 
 exports.findAll = (req, res) => {
-    Deps.findAll({
+    Mapping.findAll({
         include: [
-            { model: DepTypes, nested: true }
+            { model: Roles, all: true, nested: true },
+            { model: Employees, all: true, nested: true }
         ]
     })
         .then(data => {
@@ -23,9 +25,10 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Deps.findByPk(id, {
+    Mapping.findByPk(id, {
         include: [
-            { model: DepTypes, nested: true }
+            { model: Roles, all: true, nested: true },
+            { model: Employees, all: true, nested: true }
         ]
     })
         .then(data => {
@@ -42,7 +45,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Deps.update(req.body, {
+    Mapping.update(req.body, {
         where: { ID: id }
     })
         .then(num => {
@@ -66,7 +69,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Deps.destroy({
+    Mapping.destroy({
         where: { id: id }
     })
         .then(num => {
@@ -90,7 +93,7 @@ exports.delete = (req, res) => {
 
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.name) {
+    if (!req.body.empID && !req.body.empID) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -98,13 +101,13 @@ exports.create = (req, res) => {
     }
 
     // Create a Tutorial
-    const dep = {
-        name: req.body.name,
-        type: req.body.type,
+    const mapping = {
+        empID: req.body.empID,
+        roleID: req.body.roleID,
     };
 
     // Save Tutorial in the database
-    Deps.create(dep, { fields: ['name', 'type'] })
+    Mapping.create(mapping, { fields: ['empID', 'roleID'] })
         .then(data => {
             res.send(data);
         })

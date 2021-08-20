@@ -1,8 +1,8 @@
 
 module.exports = (sequelize, Sequelize) => {
-	const Emlpoyees = require("./Emlpoyees")(sequelize, Sequelize);
+	const Emlpoyees = require("./Employees")(sequelize, Sequelize);
 	const Roles = require("./Roles")(sequelize, Sequelize);
-	
+
 	const Mapping = sequelize.define("Mapping", {
 		ID: {
 			type: Sequelize.INTEGER,
@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
 		empID: {
 			type: Sequelize.STRING,
             references: {
-                model: emlpoyees,
+                model: Emlpoyees,
                 key: 'ID'
             }
 		},
@@ -23,6 +23,8 @@ module.exports = (sequelize, Sequelize) => {
             }
 		},
 	}, {
+		freezeTableName: true,
+		tableName: 'Mapping',
 		timestamps: false,
 		createdAt: false,
 		updatedAt: false,

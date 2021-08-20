@@ -1,12 +1,16 @@
 const db = require("../models/index.js");
+const Employees = db.Employees;
 const Deps = db.Deps;
-const DepTypes = db.DepTypes;
+const Branches = db.Branches;
+const Posts = db.Posts;
 const Op = db.Sequelize.Op;
 
 exports.findAll = (req, res) => {
-    Deps.findAll({
+    Employees.findAll({
         include: [
-            { model: DepTypes, nested: true }
+            { model: Deps, all: true, nested: true },
+            { model: Posts, all: true, nested: true },
+            { model: Branches, all: true, nested: true },
         ]
     })
         .then(data => {
@@ -23,9 +27,9 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Deps.findByPk(id, {
+    Employees.findByPk(id, {
         include: [
-            { model: DepTypes, nested: true }
+            { model: Deps, all: true, nested: true },
         ]
     })
         .then(data => {
@@ -42,7 +46,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Deps.update(req.body, {
+    Employees.update(req.body, {
         where: { ID: id }
     })
         .then(num => {
@@ -66,7 +70,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Deps.destroy({
+    Employees.destroy({
         where: { id: id }
     })
         .then(num => {
@@ -98,13 +102,19 @@ exports.create = (req, res) => {
     }
 
     // Create a Tutorial
-    const dep = {
+    const employee = {
+        bp: req.body.bp,
         name: req.body.name,
-        type: req.body.type,
+        postID: req.body.postID,
+        depID: req.body.depID,
+        branchID: req.body.branchID,
+        empCode: req.body.empCode,
+        empNCICode: req.body.empNCICode,
+        username: req.body.username,
     };
 
     // Save Tutorial in the database
-    Deps.create(dep, { fields: ['name', 'type'] })
+    Employees.create(employee, { fields: ['name', 'bp', 'postID', 'depID', 'branchID', 'empCode', 'empNCICode', 'username', 'status'] })
         .then(data => {
             res.send(data);
         })
@@ -115,3 +125,4 @@ exports.create = (req, res) => {
             });
         });
 };
+
