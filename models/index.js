@@ -112,11 +112,11 @@ db.Mapping.belongsTo(db.Roles, {
     }
 });
 
-db.Mapping.belongsTo(db.Employees, {
-    foreignKey: {
-        name: 'empID'
-    }
-});
+// db.Mapping.belongsTo(db.Employees, {
+//     foreignKey: {
+//         name: 'empID'
+//     }
+// });
 
 db.Roles.hasOne(db.Mapping, {
     foreignKey: {
@@ -124,11 +124,11 @@ db.Roles.hasOne(db.Mapping, {
     }
 });
 
-db.Employees.hasOne(db.Mapping, {
-    foreignKey: {
-        name: 'empID'
-    }
-});
+// db.Employees.hasOne(db.Mapping, {
+//     foreignKey: {
+//         name: 'empID'
+//     }
+// });
 
 
 module.exports = db;

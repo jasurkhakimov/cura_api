@@ -45,7 +45,7 @@ const checkToken = (req, res, next) => {
 }
 
 
-app.all('*', checkToken);
+// app.all('*', checkToken);
 
 
 
@@ -61,7 +61,7 @@ require("./routes/v1/mapping.route")(app)
 require("./routes/v1/users.route")(app)
 
 // set port, listen for requests
-const PORT = process.env.PORT || 4444;
+const PORT = process.env.PORT || 4445;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

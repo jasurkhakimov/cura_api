@@ -9,8 +9,8 @@ exports.findAll = (req, res) => {
     Employees.findAll({
         include: [
             { model: Deps, all: true, nested: true },
-            { model: Posts, all: true, nested: true },
-            { model: Branches, all: true, nested: true },
+            { model: Posts, nested: true },
+            { model: Branches, nested: true },
         ]
     })
         .then(data => {
@@ -30,6 +30,30 @@ exports.findOne = (req, res) => {
     Employees.findByPk(id, {
         include: [
             { model: Deps, all: true, nested: true },
+        ]
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};
+
+exports.findMFO = (req, res) => {
+    const id = req.params.id;
+
+    Employees.findAll({
+        where: {
+            branchID: id
+        },
+        include: [
+            { model: Deps, all: true, nested: true },
+            { model: Posts, all: true, nested: true },
+            { model: Branches, all: true, nested: true },
         ]
     })
         .then(data => {

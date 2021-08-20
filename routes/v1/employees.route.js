@@ -14,6 +14,8 @@ module.exports = app => {
   
     // // Retrieve a single Tutorial with id
     router.get("/:id", employees.findOne);
+    
+    router.get("/mfo/:id", employees.findMFO);
   
     // // Update a Tutorial with id
     router.put("/:id", employees.update);

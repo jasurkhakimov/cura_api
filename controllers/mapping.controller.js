@@ -3,6 +3,7 @@ const Mapping = db.Mapping;
 const Roles = db.Roles;
 const Employees = db.Employees;
 const Op = db.Sequelize.Op;
+const { QueryTypes } = require('sequelize');
 
 exports.findAll = (req, res) => {
     Mapping.findAll({
@@ -35,6 +36,34 @@ exports.findOne = (req, res) => {
             res.send(data);
         })
         .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};
+
+exports.findMFO = (req, res) => {
+    const id = req.params.id;
+    console.log("-----------------", id);
+
+    db.sequelize.query(
+        `   select * from Mapping a
+            left join Employees b
+            on
+            a.empID = b.ID
+            left join Roles c
+            on
+            a.roleID = c.ID
+            left join Branches d
+            on
+            b.branchID = d.ID
+            where d.ID = ${id}`, { type: QueryTypes.SELECT })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            console.log(err);
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while retrieving tutorials."

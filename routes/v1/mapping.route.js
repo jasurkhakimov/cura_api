@@ -14,12 +14,16 @@ module.exports = app => {
   
     // // Retrieve a single Tutorial with id
     router.get("/:id", mapping.findOne);
+    
+    router.get("/mfo/:id", mapping.findMFO);
   
     // // Update a Tutorial with id
     router.put("/:id", mapping.update);
   
     // // Delete a Tutorial with id
     router.delete("/:id", mapping.delete);
+
+
   
     // // Delete all mapping
     // router.delete("/", mapping.deleteAll);

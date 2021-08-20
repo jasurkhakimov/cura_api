@@ -5,7 +5,11 @@ const bcrypt = require('bcryptjs');
 
 
 exports.findAll = (req, res) => {
-    Users.findAll()
+    Users.findAll({
+        order: [
+            ['status', 'DESC'],
+        ],
+    })
         .then(data => {
             res.send(data);
         })
@@ -61,25 +65,31 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Users.destroy({
-        where: { id: id }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Instance was deleted successfully!"
-                });
-            } else {
-                res.send({
-                    message: `Cannot delete instance with id=${id}. Instance was not found!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Could not delete instance with id=" + id
-            });
+    if (Number(id) === 1) {
+        res.status(400).send({
+            message: "Permission denied"
         });
+    } else {
+        Users.update({ status: 0 }, {
+            where: { id: id }
+        })
+            .then(num => {
+                if (num == 1) {
+                    res.send({
+                        message: "Instance was deleted successfully!"
+                    });
+                } else {
+                    res.send({
+                        message: `Cannot delete instance with id=${id}. Instance was not found!`
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: "Could not delete instance with id=" + id
+                });
+            });
+    }
 };
 
 
@@ -107,10 +117,10 @@ exports.create = (req, res) => {
         role: req.body.role ? req.body.role : "",
     };
 
-    console.log(user);
+    // console.log(user);
 
     // Save Tutorial in the database
-    Users.create(user, { fields: ['username', 'password', 'role'] })
+    Users.create(user, { fields: ['username', 'password', 'role', 'token'] })
         .then(data => {
             res.send(data);
         })
@@ -135,8 +145,9 @@ exports.auth = async (req, res) => {
     });
 
     if (user) {
+        console.log(user);
         if (bcrypt.compareSync(password, user.password)) {
-            
+
             let token = await user.generateToken(user.ID);
             console.log('before ', user.token);
             user.token = token;
@@ -150,7 +161,7 @@ exports.auth = async (req, res) => {
         }
     } else {
         res.status(400).send({
-            message: 'Login or password is incorrect'
+            message: '1 Login or password is incorrect'
         })
     }
 
