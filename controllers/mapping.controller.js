@@ -43,27 +43,22 @@ exports.findOne = (req, res) => {
         });
 };
 
-exports.findMFO = (req, res) => {
+exports.findEmp = (req, res) => {
     const id = req.params.id;
-    console.log("-----------------", id);
-
-    db.sequelize.query(
-        `   select * from Mapping a
-            left join Employees b
-            on
-            a.empID = b.ID
-            left join Roles c
-            on
-            a.roleID = c.ID
-            left join Branches d
-            on
-            b.branchID = d.ID
-            where d.ID = ${id}`, { type: QueryTypes.SELECT })
+    
+    Mapping.findAll({
+        where: {
+            empID: id
+        },
+        include: [
+            { model: Roles, all: true, nested: true },
+            { model: Employees, all: true, nested: true }
+        ]
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
-            console.log(err);
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while retrieving tutorials."

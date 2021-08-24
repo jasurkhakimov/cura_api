@@ -8,6 +8,10 @@ module.exports = app => {
   
     // Retrieve all roles
     router.get("/", roles.findAll);
+    
+    router.get("/type/:id", roles.findFromRoleType);
+
+    
   
     // Retrieve all published roles
     // router.get("/published", roles.findAllPublished);
