@@ -41,7 +41,7 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     const id = req.params.id;
-
+    console.log('----- ',req.body, id);
     Deps.update(req.body, {
         where: { ID: id }
     })

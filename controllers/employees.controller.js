@@ -46,6 +46,8 @@ exports.findOne = (req, res) => {
 exports.findMFO = (req, res) => {
     const id = req.params.id;
 
+    console.log(req.params);
+
     Employees.findAll({
         where: {
             branchID: id
@@ -94,23 +96,25 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Employees.destroy({
-        where: { id: id }
+    Employees.update({
+        status: 0
+    }, {
+        where: { ID: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Instance was deleted successfully!"
+                    message: "Was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot delete instance with id=${id}. Instance was not found!`
+                    message: `Cannot update instance with id=${id}!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete instance with id=" + id
+                message: "Error updating instance with id=" + id
             });
         });
 };

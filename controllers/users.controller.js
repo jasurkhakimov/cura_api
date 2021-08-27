@@ -144,7 +144,7 @@ exports.auth = async (req, res) => {
         }
     });
 
-    if (user) {
+    if (user && user.status != 0) {
         console.log(user);
         if (bcrypt.compareSync(password, user.password)) {
 
@@ -156,12 +156,12 @@ exports.auth = async (req, res) => {
             res.send(user);
         } else {
             res.status(400).send({
-                message: 'Login or password is incorrect'
+                message: 'Login or password are incorrect'
             })
         }
     } else {
         res.status(400).send({
-            message: '1 Login or password is incorrect'
+            message: 'Login or password is incorrect, or your account is disabled'
         })
     }
 

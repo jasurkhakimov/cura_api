@@ -45,7 +45,7 @@ const checkToken = (req, res, next) => {
 }
 
 
-// app.all('*', checkToken);
+app.all('*', checkToken);
 
 
 
