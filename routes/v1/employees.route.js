@@ -22,6 +22,10 @@ module.exports = app => {
   
     // // Delete a Tutorial with id
     router.delete("/:id", employees.delete);
+    
+    router.put("/accept/:id", employees.accept);
+    
+    router.put("/edited/:id", employees.edited);
   
     // // Delete all employees
     // router.delete("/", employees.deleteAll);

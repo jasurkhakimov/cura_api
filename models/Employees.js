@@ -7,7 +7,8 @@ module.exports = (sequelize, Sequelize) => {
 	const Employees = sequelize.define("Employees", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true
 		},
 		bp: {
 			type: Sequelize.INTEGER
@@ -48,9 +49,15 @@ module.exports = (sequelize, Sequelize) => {
 		username: {
 			type: Sequelize.STRING,
 		},
+		email: {
+			type: Sequelize.STRING,
+		},
 		status: {
 			type: Sequelize.INTEGER,
 			defaultValue: 1
+		},
+		editedBy: {
+			type: Sequelize.INTEGER,
 		},
 	}, {
 		timestamps: false,

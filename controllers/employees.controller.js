@@ -46,8 +46,6 @@ exports.findOne = (req, res) => {
 exports.findMFO = (req, res) => {
     const id = req.params.id;
 
-    console.log(req.params);
-
     Employees.findAll({
         where: {
             branchID: id
@@ -119,6 +117,58 @@ exports.delete = (req, res) => {
         });
 };
 
+exports.accept = (req, res) => {
+    const id = req.params.id;
+
+    Employees.update({
+        status: 1
+    }, {
+        where: { ID: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update instance with id=${id}!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating instance with id=" + id
+            });
+        });
+};
+
+exports.edited = (req, res) => {
+    const id = req.params.id;
+
+    console.log(req.body);
+    Employees.update(req.body, {
+        where: { ID: id }
+    })
+        .then(num => {
+            console.log(num);
+            if (num == 1) {
+                res.send({
+                    message: "Was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update instance with id=${id}!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating instance with id=" + id
+            });
+        });
+};
+
 
 exports.create = (req, res) => {
     // Validate request
@@ -128,7 +178,7 @@ exports.create = (req, res) => {
         });
         return;
     }
-
+    console.log(req.body);
     // Create a Tutorial
     const employee = {
         bp: req.body.bp,
@@ -139,10 +189,11 @@ exports.create = (req, res) => {
         empCode: req.body.empCode,
         empNCICode: req.body.empNCICode,
         username: req.body.username,
+        email: req.body.email,
     };
 
     // Save Tutorial in the database
-    Employees.create(employee, { fields: ['name', 'bp', 'postID', 'depID', 'branchID', 'empCode', 'empNCICode', 'username', 'status'] })
+    Employees.create(employee, { fields: ['name', 'bp', 'postID', 'depID', 'branchID', 'empCode', 'empNCICode', 'username', 'status', 'email', 'editedBy'] })
         .then(data => {
             res.send(data);
         })
