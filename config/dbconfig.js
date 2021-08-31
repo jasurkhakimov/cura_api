@@ -2,7 +2,7 @@ module.exports = {
     HOST: "10.10.12.65",
     USER: "curauser",
     PASSWORD: "Aa123456$",
-    DB: "CURADEV",
+    DB: "CURAPROD",
     dialect: "mssql",
     pool: {
         max: 5,

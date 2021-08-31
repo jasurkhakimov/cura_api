@@ -67,6 +67,33 @@ exports.findMFO = (req, res) => {
         });
 };
 
+exports.filter = (req, res) => {
+    const id = req.params.id;
+
+    console.log(req.query);
+
+    Employees.findAll({
+        where: {
+            ...req.query,
+            branchID: id,
+        },
+        include: [
+            { model: Deps, all: true, nested: true },
+            { model: Posts, all: true, nested: true },
+            { model: Branches, all: true, nested: true },
+        ]
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};
+
 exports.update = (req, res) => {
     const id = req.params.id;
 
