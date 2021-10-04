@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "10.10.12.65",
-    USER: "curauser",
+    HOST: "sql5064.site4now.net",
+    USER: "db_a7a894_mssql_admin",
     PASSWORD: "Aa123456",
-    DB: "CURAPROD",
+    DB: "db_a7a894_mssql",
     dialect: "mssql",
     pool: {
         max: 5,

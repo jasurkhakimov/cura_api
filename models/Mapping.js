@@ -6,17 +6,18 @@ module.exports = (sequelize, Sequelize) => {
 	const Mapping = sequelize.define("Mapping", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true
 		},
 		empID: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
             references: {
                 model: Emlpoyees,
                 key: 'ID'
             }
 		},
 		roleID: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
             references: {
                 model: Roles,
                 key: 'ID'
