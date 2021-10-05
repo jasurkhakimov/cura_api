@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
 	const DepTypes = sequelize.define("DepTypes", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true,
 		},
 		name: {
 			type: Sequelize.STRING

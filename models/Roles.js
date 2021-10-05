@@ -6,7 +6,8 @@ module.exports = (sequelize, Sequelize) => {
 	const Roles = sequelize.define("Roles", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true,
 		},
 		name: {
 			type: Sequelize.STRING

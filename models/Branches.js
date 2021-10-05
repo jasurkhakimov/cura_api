@@ -2,7 +2,8 @@ module.exports = (sequelize, Sequelize) => {
 	const Branches = sequelize.define("Branches", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true,
 		},
 		name: {
 			type: Sequelize.STRING

@@ -5,7 +5,8 @@ module.exports = (sequelize, Sequelize) => {
 	const Deps = sequelize.define("Deps", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true,
 		},
 		name: {
 			type: Sequelize.STRING

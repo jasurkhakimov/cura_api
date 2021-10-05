@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true
+            },
+            "previewLimit": 50,
+            "server": "sql5064.site4now.net",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "cura_api",
+            "database": "db_a7a894_mssql",
+            "username": "db_a7a894_mssql_admin",
+            "password": "Aa123456"
+        }
+    ]
+}

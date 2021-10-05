@@ -2,7 +2,8 @@ module.exports = (sequelize, Sequelize) => {
 	const Profiles = sequelize.define("Profiles", {
 		ID: {
 			type: Sequelize.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true,
 		},
 		name: {
 			type: Sequelize.STRING
